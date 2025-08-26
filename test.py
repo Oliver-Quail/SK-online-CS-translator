@@ -24,7 +24,6 @@ class StructOSaurusRex():
     def strip_types(self, method_text):
         global name_converter
         output = method_text
-        print("stripping")
         for name in name_converter.keys():
             if self.convert_type(name) in output:
                 output = output.replace(self.convert_type(name), "")
@@ -32,20 +31,20 @@ class StructOSaurusRex():
         return output
 
     # Input example data[types][structs]
-    def get_struct_name(self, line):
-        struct_name = self.convert_type(line[0]["name"])
-
+    def get_struct_name(self, line, struct_index):
+        struct_name = self.convert_type(line[struct_index]["name"])
+        print("Struct name: " + struct_name)
         signature = "public struct " + struct_name + " {\n\n"
         properties = ""
-        for attribute in line[0]["fields"].keys():
+        for attribute in line[struct_index]["fields"].keys():
             properties += "public "
-
-            if line[0]["fields"][attribute]["is_const"] == "true":
+            print("==== name: " + attribute + " ======")
+            if line[struct_index]["fields"][attribute]["is_const"] == "true":
                 properties += "const "
 
-            properties += self.convert_type(line[0]["fields"][attribute]["type"])
+            properties += self.convert_type(line[struct_index]["fields"][attribute]["type"])
 
-            if line[0]["fields"][attribute]["is_array"]:
+            if line[struct_index]["fields"][attribute]["is_array"]:
                 properties += "[] "
             else:
                 properties += " "
@@ -54,16 +53,14 @@ class StructOSaurusRex():
         return struct_name, signature, properties
 
     # Input example data[types][structs]
-    def get_struct_methods(self, line, struct_name):
+    def get_struct_methods(self, line, struct_name, struct_index):
         # Code to get methods
         method_signature = ""
         method_name = ""
-        sk_function_to_call = ""
         method_index = 0
         methods = ""
-        while method_index < len(line[0]["methods"]):
-            print("========================")
-            for method in line[0]["methods"][method_index]["signatures"]["csharp"]:
+        while method_index < len(line[struct_index]["methods"]):
+            for method in line[struct_index]["methods"][method_index]["signatures"]["csharp"]:
                 # Apply simple change if thing is struct.method
                 if struct_name + "." in method:
                     method_signature = method.replace(struct_name + ".", "")
@@ -85,9 +82,9 @@ class StructOSaurusRex():
                     method_name = class_name + "." + classes_string[1]
                     # Remove the semi colon from the end
                     method_name = method_name[:-1]
-                    print(method_name + "  aaa")
                     # Determine if a struct val needs to be replaced by struct this
                     run_check = True
+                    target = 0
                     if " " + struct_name + " " in method_name:
                         target = method_name.index(" " + struct_name + " ")
                     elif "(" + struct_name + " " in method:
@@ -113,14 +110,23 @@ class StructOSaurusRex():
 
 struct_data = StructOSaurusRex()
 
-struct_name, signature, properties = struct_data.get_struct_name(data["types"]["structs"])
-methods = struct_data.get_struct_methods(data["types"]["structs"], struct_name)
 
-print("\n")
-print(signature + "\n")
-print(properties)
-print(methods)
-print("} \n")
+index = 0
+output = ""
+while index < len(data["types"]["structs"]):
+    print("========================")
+    struct_name, signature, properties = struct_data.get_struct_name(data["types"]["structs"], index)
+    methods = struct_data.get_struct_methods(data["types"]["structs"], struct_name, index)
+    print("========================")
+    output += "\n"
+    output += signature + "\n"
+    output += properties + "\n"
+    output += methods + "}\n"
+    index += 1
 
+
+o = open("structs.cs", "w")
+
+o.write(output)
 
 #print(data["types"]["structs"][0]["methods"][0])
