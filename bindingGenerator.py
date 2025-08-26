@@ -109,6 +109,29 @@ class StructOSaurusRex():
         return methods
 
 
+def get_enum(line, enum_index):
+    print(line[enum_index]["name"])
+    enum_values = line[enum_index]["signatures"]["csharp"].split(",")
+
+    print(enum_values)
+
+    first = enum_values[0]
+    first = first[first.index("{") + 1:]
+
+    last = enum_values[len(enum_values) -1]
+    last = last[:-1]
+    enum_values[0] = " " + first
+    enum_values[len(enum_values) -1] = last
+    enum_name = first.split(".")[0]
+    enum = "public enum " + enum_name + "{ \n"
+
+    for value in enum_values:
+        enum += value.split(".")[1] + ",\n"
+
+    enum += "}\n"
+
+    return enum
+
 
 struct_data = StructOSaurusRex()
 
@@ -179,13 +202,15 @@ catergory = 0
 
 maps = {}
 structs = ""
+enums = ""
 
 while catergory < len(catergories):
     function_index = 0
+    struct_index = 0
+    enum_index = 0
     while function_index < len(data[catergories[catergory]]["functions"]):
         get_bindings(data[catergories[catergory]]["functions"][function_index])
         function_index += 1
-    struct_index = 0
     while struct_index < len(data[catergories[catergory]]["structs"]):
         print("========================")
         struct_name, signature, properties = struct_data.get_struct_name(data[catergories[catergory]]["structs"], struct_index)
@@ -196,6 +221,10 @@ while catergory < len(catergories):
         structs += properties + "\n"
         structs += methods + "}\n"
         struct_index += 1
+    
+    while enum_index < len(data[catergories[catergory]]["enums"]):
+        enums += get_enum(data[catergories[catergory]]["enums"], enum_index)
+        enum_index += 1
 
     catergory += 1
 
@@ -215,6 +244,7 @@ for SK_class in classes:
     output += "     } \n\n"
 
 output += structs
+output += enums
 output += "} \n"
 
 
