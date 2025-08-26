@@ -6,16 +6,16 @@ public struct Circle {
        public double Radius;
 
       public void Draw(Color clr){
-            SplashKit.Draw( clr,  this)
+            SplashKit.Draw( clr,  this);
 }
       public void Draw(Color clr, DrawingOptions opts){
-            SplashKit.Draw( clr,  this,  opts)
+            SplashKit.Draw( clr,  this,  opts);
 }
       public void Fill(Color clr){
-            SplashKit.Fill( clr,  this)
+            SplashKit.Fill( clr,  this);
 }
       public void Fill(Color clr, DrawingOptions opts){
-            SplashKit.Fill( clr,  this,  opts)
+            SplashKit.Fill( clr,  this,  opts);
 }
 }
 
@@ -28,25 +28,25 @@ public struct Color {
        public float A;
 
       public static Color HSBColor(double hue, double saturation, double brightness){
-            SplashKit.HSB(double hue, double saturation, double brightness)
+            SplashKit.HSB( hue,  saturation,  brightness);
 }
       public static Color Random(){
-            SplashKit.Random()
+            SplashKit.Random();
 }
       public static Color RandomRGB(int alpha){
-            SplashKit.RandomRGB(int alpha)
+            SplashKit.RandomRGB( alpha);
 }
       public static Color RGBColor(double red, double green, double blue){
-            SplashKit.RGB(double red, double green, double blue)
+            SplashKit.RGB( red,  green,  blue);
 }
       public static Color RGBColor(int red, int green, int blue){
-            SplashKit.RGB(int red, int green, int blue)
+            SplashKit.RGB( red,  green,  blue);
 }
       public static Color RGBAColor(double red, double green, double blue, double alpha){
-            SplashKit.RGBA(double red, double green, double blue, double alpha)
+            SplashKit.RGBA( red,  green,  blue,  alpha);
 }
       public static Color RGBAColor(int red, int green, int blue, int alpha){
-            SplashKit.RGBA(int red, int green, int blue, int alpha)
+            SplashKit.RGBA( red,  green,  blue,  alpha);
 }
 }
 
@@ -62,7 +62,7 @@ public struct DrawingOptions {
        public bool Flip_x;
        public bool Flip_y;
        public bool Is_part;
-       public rectangle Part;
+       public Rectangle Part;
        public int Draw_cell;
        public drawing_dest Camera;
        public int Line_width;
@@ -70,7 +70,7 @@ public struct DrawingOptions {
 
 }
 
-public struct line {
+public struct Line {
 
 
        public Point2D Start_point;
@@ -93,7 +93,7 @@ public struct Quad {
 
 }
 
-public struct rectangle {
+public struct Rectangle {
 
 
        public double X;
@@ -103,7 +103,7 @@ public struct rectangle {
 
 }
 
-public struct triangle {
+public struct Triangle {
 
 
        public Point2D[] Points;

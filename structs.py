@@ -7,9 +7,8 @@ with open("./api.json") as json_data:
 
 catergories = list(data.keys())
 
-name_converter = {"point_2d": "Point2D", "vector_2d": "Vector2D", "circle": "Circle", "quad": "Quad", "color": "Color", "drawing_options": "DrawingOptions"}
+name_converter = {"point_2d": "Point2D", "vector_2d": "Vector2D", "circle": "Circle", "quad": "Quad", "color": "Color", "drawing_options": "DrawingOptions", "line": "Line", "rectangle": "Rectangle", "triangle": 'Triangle'}
 
-#print(data["types"]["structs"][0].keys())
 
 
 class StructOSaurusRex():
@@ -23,10 +22,15 @@ class StructOSaurusRex():
 
     def strip_types(self, method_text):
         global name_converter
+        standard_type = ["int", "double", "string"]
         output = method_text
         for name in name_converter.keys():
             if self.convert_type(name) in output:
                 output = output.replace(self.convert_type(name), "")
+        
+        for type in standard_type:
+            if type in output:
+                output = output.replace(type, "")
         
         return output
 
@@ -82,7 +86,6 @@ class StructOSaurusRex():
                     # Resassemble the method name
                     method_name = class_name + "." + classes_string[1]
                     # Remove the semi colon from the end
-                    method_name = method_name[:-1]
                     # Determine if a struct val needs to be replaced by struct this
                     run_check = True
                     target = 0
