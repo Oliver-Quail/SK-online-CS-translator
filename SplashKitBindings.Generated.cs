@@ -6301,7 +6301,7 @@ namespace SplashKitSDK
      } 
 
 
-public struct matrix_2d {
+public struct Matrix2D {
 
 
        public double[] Elements;

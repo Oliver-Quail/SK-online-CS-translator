@@ -4,7 +4,7 @@ import json
 js_import_binding = "SplashKitBackendWASM."
 
 
-name_converter = {"point_2d": "Point2D", "vector_2d": "Vector2D", "circle": "Circle", "quad": "Quad", "color": "Color", "drawing_options": "DrawingOptions", "line": "Line", "rectangle": "Rectangle", "triangle": 'Triangle'}
+name_converter = {"point_2d": "Point2D", "vector_2d": "Vector2D", "circle": "Circle", "quad": "Quad", "color": "Color", "drawing_options": "DrawingOptions", "line": "Line", "rectangle": "Rectangle", "triangle": 'Triangle', "matrix_2d" :"Matrix2D", "resource_kind" :"ResourceKind"}
 
 
 
