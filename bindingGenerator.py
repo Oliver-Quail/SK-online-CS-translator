@@ -2,6 +2,9 @@ import json
 
 maps = {}
 
+js_import_binding = "SplashKitBackendWASM."
+
+
 def get_bindings(line):
     global maps
     cpp_name = line["name"]
@@ -55,11 +58,6 @@ def get_bindings(line):
         maps[class_name].append(signature)
     
 
-def get_structs(line): 
-    pass
-
-
-js_import_binding = "SplashKitBackendWASM."
 
 
 with open("./api.json") as json_data:
@@ -79,14 +77,12 @@ while catergory < len(catergories):
         function_index += 1
     catergory += 1
 
+
+# Output the file
 output_file = open("SplashKitBindings.Generated.cs", "w")
 
 classes = maps.keys()
-
 output = "using System.Runtime.InteropServices.JavaScript; \n\nnamespace SplashKitSDK \n{\n"
-
-print(classes)
-
 for SK_class in classes:
     output += "   public partial class " + SK_class + "\n   {\n"
 

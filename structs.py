@@ -37,7 +37,7 @@ class StructOSaurusRex():
         signature = "public struct " + struct_name + " {\n\n"
         properties = ""
         for attribute in line[struct_index]["fields"].keys():
-            properties += "public "
+            properties += "       public "
             print("==== name: " + attribute + " ======")
             if line[struct_index]["fields"][attribute]["is_const"] == "true":
                 properties += "const "
@@ -65,6 +65,7 @@ class StructOSaurusRex():
                 if struct_name + "." in method:
                     method_signature = method.replace(struct_name + ".", "")
                     method_signature = method_signature[:-1]
+                    method_signature = "      " + method_signature
                     methods += method_signature + "{\n"
                 # Find method struct.method calls
                 else: 
@@ -102,7 +103,8 @@ class StructOSaurusRex():
                     if run_check:
                         method_name = method_name.replace(removal_string, " " + struct_name + " this")
                     method_name = self.strip_types(method_name)
-                    methods += method_name + "\n}\n"
+                    methods += "            " + method_name + "\n}\n"
+                    
             method_index += 1
         return methods
 
